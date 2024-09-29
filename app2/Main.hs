@@ -1,11 +1,9 @@
 {-# LANGUAGE ImportQualifiedPost #-}
 module Main (main) where
 
-import Control.Monad.IO.Class ()
-import Control.Monad.State.Strict
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Data.List qualified as L
 import Lib1 qualified
-import Lib2 qualified
 import System.Console.Repline
   ( CompleterStyle (Word),
     ExitDecision (Exit),
@@ -14,7 +12,7 @@ import System.Console.Repline
     evalRepl,
   )
 
-type Repl a = HaskelineT (StateT Lib2.State IO) a
+type Repl a = HaskelineT IO a
 
 final :: Repl ExitDecision
 final = do
@@ -22,22 +20,17 @@ final = do
   return Exit
 
 ini :: Repl ()
-ini = liftIO $ putStrLn "Welcome! Press [TAB] for auto completion."
+ini =
+  liftIO $ putStrLn "Welcome! Press [TAB] for auto completion."
 
 completer :: (Monad m) => WordCompleter m
 completer n =
   return $ Prelude.filter (L.isPrefixOf n) Lib1.completions
 
+-- Evaluation : handle each line user inputs
 cmd :: String -> Repl ()
-cmd str = do
-  case Lib2.parseQuery str of
-    Left e -> liftIO $ putStrLn $ "PARSE ERROR:" ++ e
-    Right e -> do
-      st <- lift get
-      case Lib2.stateTransition st e of
-        Left e2 -> liftIO $ putStrLn $ "ERROR:" ++ e2
-        Right (m, ns) -> lift (put ns) >> mapM_ (liftIO . putStrLn) m
+cmd _ = return ()
 
 main :: IO ()
-main = evalStateT
-  (evalRepl (const $ pure ">>> ") cmd [] Nothing Nothing (Word completer) ini final) Lib2.emptyState
+main =
+  evalRepl (const $ pure ">>> ") cmd [] Nothing Nothing (Word completer) ini final
