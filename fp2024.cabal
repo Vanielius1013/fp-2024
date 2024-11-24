@@ -29,6 +29,7 @@ library
       Lessons.Lesson02
       Lessons.Lesson03
       Lib1
+      Lib2
   other-modules:
       Paths_fp2024
   autogen-modules:

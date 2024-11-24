@@ -1,14 +1,24 @@
-<player_name> ::= <string>
+<init_game> ::= <task_list>
 
-<player_damage> ::= <intiger>
+<task_list> ::= <task> | <task> ";" <task_list> 
 
-<enemy_name> ::= <string> <enemy_type>
+<task> ::= <spawn_player> | <spawn_enemy> | <remove_player>
+
+<spawn_player> ::= "spawn_player" <player>
+
+<remove_player> ::= "remove_player" <player>
+
+<spawn_enemy> ::= "spawn_enemy" <enemy>
+
+<player> ::= <entity_name> <health_value> <entity_damage>
+
+<enemy> ::= <entity_name> <enemy_type> <health_value> <entity_damage>
+
+<entity_damage> ::= <intiger>
+
+<entity_name> ::= <string>
 
 <enemy_type> ::= "Ranger" | "Bruiser" | "Rusher"
-
-<enemy_damage> ::= <intiger>
-
-<enemy_stats> ::= "Name: " <enemy_name> ", "health: " <health_value>
 
 <health_value> ::= <intiger>
 

@@ -7,11 +7,20 @@ where
 -- to be autocompleted in your program's repl.
 completions :: [String]
 completions =
-  [ "player_name",
-    "player_damage",
-    "enemy_name",
-    "enemy_damage",
-    "enemy_stats",
+  [ -- commands
+    "init_game",
+    "spawn_player",
+    "spawn_enemy",
+    "remove_player",
+    -- info
+    "player",
+    "enemy",
+    "entity_name",
+    "health_value",
+    "entity_damage",
     "enemy_type",
-    "health_value"
+    -- types
+    "Rusher",
+    "Bruiser",
+    "Ranger"
   ]
